@@ -1,0 +1,19 @@
+{
+  "name": "newbite",
+  "version": "1.0.0",
+  "description": "Find new places to eat!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AChelikani/NewBite.git"
+  },
+  "author": "Advith Chelikani and Sagar Punhani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AChelikani/NewBite/issues"
+  },
+  "homepage": "https://github.com/AChelikani/NewBite#readme"
+}
