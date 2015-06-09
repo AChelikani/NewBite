@@ -1,6 +1,8 @@
 html
   head
+    // Using title passed in parameters in app.js
     title=title
+    // Using Bootstrap 3 for sexy UI
     link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
   body
     div.container
@@ -11,6 +13,8 @@ html
           p Welcome, #{user.fullName}
           p
             a.small(href="/profile") Edit my profile
+          p
+            a.small(href="/map") Find food
           a.btn.btn-primary(href="/logout") Logout
         else
           p Welcome to my app, ready to get started?
