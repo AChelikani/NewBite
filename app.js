@@ -22,4 +22,12 @@ app.get('/', function(req, res) {
   });
 });
 
+app.get('/profile', function(req, res) {
+   res.render('profile', {
+	 title: 'Profile'
+   });
+});
+
+
+
 app.listen(5000);
