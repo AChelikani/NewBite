@@ -1,26 +1,43 @@
+doctype html
 html
   head
-    // Using title passed in parameters in app.js
-    title=title
-    // Using Bootstrap 3 for sexy UI
-    link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
-  body
-    div.container
-      div.jumbotron
-        h1 Hello!
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel='icon', href='#{pathToAssets}/docs/favicon.ico')
+    title NewBite
 
-        if user
-          p Welcome, #{user.fullName}
-          p
-            a.small(href="/profile") Edit my profile
-          p
-            a.small(href="/map") Find food
-          a.btn.btn-primary(href="/logout") Logout
-        else
-          p Welcome to my app, ready to get started?
-          p
-            a.btn.btn-primary(href="/login") Login now
-          p
-            span.small Don't have an account?
-            span &nbsp;
-            a.small(href="/register") Register now
+    // Bootstrap dependencies
+    link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+
+    // IE Dependencies
+    script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+    script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+
+    // Stylesheet
+    style
+      include cover.css
+
+  body
+    .site-wrapper
+      .site-wrapper-inner
+        .cover-container
+          .masthead.clearfix
+            .inner
+            
+          .inner.cover
+            h1.cover-heading NewBite
+            p.lead
+              | Welcome, #{user.fullName}
+            p.lead
+              a.btn.btn-lg.btn-default(href='/profile') Edit profile!
+            p.lead
+              a.btn.btn-lg.btn-default(href='/map') Find food!
+          .mastfoot
+            .inner
+              p
+                | Advith Chelikani and Sagar Punhani | 2015
+    
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
