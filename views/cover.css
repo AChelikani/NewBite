@@ -15,15 +15,22 @@ a:hover {
   border: 1px solid #fff;
 }
 
+
 html,
 body {
   height: 100%;
-  background-color: #333;
+  background: url("") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
+
 body {
   color: #fff;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  background-image: url("bg2.jpg");
 }
 
 .site-wrapper {
@@ -42,7 +49,6 @@ body {
   margin-right: auto;
   margin-left: auto;
 }
-
 
 .inner {
   padding: 30px;

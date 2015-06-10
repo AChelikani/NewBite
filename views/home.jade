@@ -7,7 +7,7 @@ html
     meta(name='description', content='')
     meta(name='author', content='')
     link(rel='icon', href='#{pathToAssets}/docs/favicon.ico')
-    title NewBite
+    title=title
 
     // Bootstrap dependencies
     link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
@@ -20,7 +20,7 @@ html
     style
       include cover.css
 
-  body
+  body.bkimg
     if user
       .site-wrapper
         .site-wrapper-inner
@@ -32,15 +32,12 @@ html
               h1.cover-heading NewBite
               p.lead
                 | Welcome, #{user.fullName}
-              div.btn-toolbar
-                a.btn-lg.btn-default(href='/profile') Edit profile!
-                a.btn-lg.btn-default(href='/map') Find food!
-              p.lead
-                a.btn.btn-lg.btn-default(href='/profile') Edit profile!
-              p.lead
-                a.btn.btn-lg.btn-default(href='/map') Find food!
-              p
-                a.btn.btn-lg.btn-default(href='/logout') Logout
+              div.col-lg-4
+                a.btn-lg.btn-default(href='/profile') Edit profile
+              div.col-lg-4
+                a.btn-lg.btn-default(href='/map') Find food
+              div.col-lg-4
+                a.btn-lg.btn-default(href='/logout') Logout
             .mastfoot
               .inner
                 p
