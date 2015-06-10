@@ -21,23 +21,30 @@ html
       include cover.css
 
   body
-    .site-wrapper
-      .site-wrapper-inner
-        .cover-container
-          .masthead.clearfix
-            .inner
-            
-          .inner.cover
-            h1.cover-heading NewBite
-            p.lead
-              | Welcome, #{user.fullName}
-            p.lead
-              a.btn.btn-lg.btn-default(href='/profile') Edit profile!
-            p.lead
-              a.btn.btn-lg.btn-default(href='/map') Find food!
-          .mastfoot
-            .inner
+    if user
+      .site-wrapper
+        .site-wrapper-inner
+          .cover-container
+            .masthead.clearfix
+              .inner
+              
+            .inner.cover
+              h1.cover-heading NewBite
+              p.lead
+                | Welcome, #{user.fullName}
+              p.lead
+                a.btn.btn-lg.btn-default(href='/profile') Edit profile!
+              p.lead
+                a.btn.btn-lg.btn-default(href='/map') Find food!
               p
-                | Advith Chelikani and Sagar Punhani | 2015
-    
+                a.btn.btn-lg.btn-default(href='/logout') Logout
+            .mastfoot
+              .inner
+                p
+                  | Advith Chelikani and Sagar Punhani | 2015
+    else
+      // Auto-redirects to login page if no account is found
+      script(type='text/javascript').
+        window.location.href = '/login';
+
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
