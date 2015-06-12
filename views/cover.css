@@ -19,7 +19,7 @@ a:hover {
 html,
 body {
   height: 100%;
-  background: url("") no-repeat center center fixed; 
+  background: url("http://i.imgur.com/7XQ536h.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -30,7 +30,6 @@ body {
   color: #fff;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
-  background-image: url("bg2.jpg");
 }
 
 .site-wrapper {
@@ -53,7 +52,6 @@ body {
 .inner {
   padding: 30px;
 }
-
 
 .masthead-brand {
   margin-top: 10px;

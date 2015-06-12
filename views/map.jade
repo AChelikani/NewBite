@@ -12,7 +12,9 @@ html
   body
     #map
     script.
+      var temp = "#{user.fullName}";
+      alert(temp);
       L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
-      L.mapbox.map('map', 'mapbox.streets')
-      .addControl(L.mapbox.geocoderControl('mapbox.places'));
-
+      var map = L.mapbox.map('map', 'mapbox.streets')
+      .addControl(L.mapbox.geocoderControl('mapbox.places'))
+      .setView([40, -75], 9);
