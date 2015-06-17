@@ -5,16 +5,36 @@ html
     title Add geocoding
     meta(name='viewport', content='initial-scale=1,maximum-scale=1,user-scalable=no')
     script(src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
     link(href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css', rel='stylesheet')
     style.
       body { margin:0; padding:0; }
       #map { position:absolute; top:0; bottom:0; width:100%; }
   body
-    #map
-    script.
-      var temp = "#{user.fullName}";
-      alert(temp);
-      L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
-      var map = L.mapbox.map('map', 'mapbox.streets')
-      .addControl(L.mapbox.geocoderControl('mapbox.places'))
-      .setView([40, -75], 9);
+    if user
+      #map
+      script.
+        var address = "#{user.customData.streetAddress}".split(" ").join("+") + "+" + "#{user.customData.city}" + "+" + "#{user.customData.state}";
+        var url = "http://api.tiles.mapbox.com/v4/geocode/mapbox.places/" + address + ".json?access_token=" + "pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw";
+        
+        // Finds latitude and longtitude of home location of user
+        $.getJSON(url, function(data) {
+          var obj = JSON.stringify(data.features);
+          var start = obj.indexOf("coordinates");
+          var b1 = obj.indexOf("[", start);
+          var b2 = obj.indexOf(",", start);
+          var b3 = obj.indexOf("]", start);
+          latVal = parseFloat(obj.substring(b2+1, b3));
+          longVal = parseFloat(obj.substring(b1+1, b2));
+
+          // Renders map
+          L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
+          var map = L.mapbox.map('map', 'mapbox.streets')
+          .addControl(L.mapbox.geocoderControl('mapbox.places'))
+          .setView([latVal, longVal], 9);
+          });
+
+    else
+      // Auto-redirects to login page if no account is found
+      script(type='text/javascript').
+        window.location.href = '/login';
