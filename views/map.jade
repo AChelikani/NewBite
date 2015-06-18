@@ -14,6 +14,7 @@ html
     if user
       #map
       script.
+        // Concatenates address of user into a url query, which returns a GeoJSON
         var address = "#{user.customData.streetAddress}".split(" ").join("+") + "+" + "#{user.customData.city}" + "+" + "#{user.customData.state}";
         var url = "http://api.tiles.mapbox.com/v4/geocode/mapbox.places/" + address + ".json?access_token=" + "pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw";
         
@@ -34,6 +35,7 @@ html
             .setView([latVal, longVal], 17);
 
           // GeoJSON for a specific sample restaurant marker
+          // Can be loaded from a file, which should be populated with 
           var geojson = [
           {
             "type": "Feature",
