@@ -30,8 +30,29 @@ html
           // Renders map
           L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
           var map = L.mapbox.map('map', 'mapbox.streets')
-          .addControl(L.mapbox.geocoderControl('mapbox.places'))
-          .setView([latVal, longVal], 9);
+            .addControl(L.mapbox.geocoderControl('mapbox.places'))
+            .setView([latVal, longVal], 17);
+
+          // GeoJSON for a specific sample restaurant marker
+          var geojson = [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [-118.124514,34.139011]
+            },
+            "properties": {
+              "title": "Chandler Cafeteria",
+              "description": "Main cafeteria at Caltech",
+              "marker-color": "#3ca0d3",
+              "marker-size": "large",
+              "marker-symbol": "restaurant"
+            }
+          }];
+
+          var feautreLayer = L.mapbox.featureLayer()
+            .setGeoJSON(geojson)
+            .addTo(map);
           });
 
     else
