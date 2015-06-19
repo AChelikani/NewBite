@@ -27,6 +27,7 @@ app.get('/', function(req, res) {
   });
 });
 
+// Rendering map page
 app.get('/map', function(req, res) {
   res.render('map', {
     title: 'Map'

@@ -2,7 +2,7 @@ doctype html
 html
   head
     meta(charset='utf-8')
-    title Add geocoding
+    title=title
     meta(name='viewport', content='initial-scale=1,maximum-scale=1,user-scalable=no')
     script(src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
@@ -17,7 +17,12 @@ html
         // Concatenates address of user into a url query, which returns a GeoJSON
         var address = "#{user.customData.streetAddress}".split(" ").join("+") + "+" + "#{user.customData.city}" + "+" + "#{user.customData.state}";
         var url = "http://api.tiles.mapbox.com/v4/geocode/mapbox.places/" + address + ".json?access_token=" + "pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw";
-        
+        var latVal = 0.0;
+        var longVal = 0.0;
+
+        // Makes function call asynchronous
+        $.ajaxSetup({"async": false});
+
         // Finds latitude and longtitude of home location of user
         $.getJSON(url, function(data) {
           var obj = JSON.stringify(data.features);
@@ -27,6 +32,8 @@ html
           var b3 = obj.indexOf("]", start);
           latVal = parseFloat(obj.substring(b2+1, b3));
           longVal = parseFloat(obj.substring(b1+1, b2));
+
+          });
 
           // Renders map
           L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
@@ -55,7 +62,6 @@ html
           var feautreLayer = L.mapbox.featureLayer()
             .setGeoJSON(geojson)
             .addTo(map);
-          });
 
     else
       // Auto-redirects to login page if no account is found
