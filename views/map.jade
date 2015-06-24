@@ -17,51 +17,57 @@ html
         // Concatenates address of user into a url query, which returns a GeoJSON
         var address = "#{user.customData.streetAddress}".split(" ").join("+") + "+" + "#{user.customData.city}" + "+" + "#{user.customData.state}";
         var url = "http://api.tiles.mapbox.com/v4/geocode/mapbox.places/" + address + ".json?access_token=" + "pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw";
-        var latVal = 0.0;
-        var longVal = 0.0;
-
+        var latVal = 34.139011;
+        var longVal = -118.124514;
+        var limit = 50;
+        var newURL = "http://api.v3.factual.com/t/restaurants-us?geo={%22$circle%22:{%22$center%22:[" + latVal+ "," + longVal + "],%22$meters%22:%205000}}" + "&limit=50" + "&KEY=OGuAUQmSvTSqP5Jv6PJqn0UZ0bXEtHbOlOKcwVcR";
+        var factualData = "";
+        var markers = "[";
         // Makes function call asynchronous
         $.ajaxSetup({"async": false});
 
-        // Finds latitude and longtitude of home location of user
-        $.getJSON(url, function(data) {
-          var obj = JSON.stringify(data.features);
-          var start = obj.indexOf("coordinates");
-          var b1 = obj.indexOf("[", start);
-          var b2 = obj.indexOf(",", start);
-          var b3 = obj.indexOf("]", start);
-          latVal = parseFloat(obj.substring(b2+1, b3));
-          longVal = parseFloat(obj.substring(b1+1, b2));
+        $.getJSON(newURL, function(data) {
+          factualData = JSON.stringify(data);
+        });
 
-          });
+        // Manipulating Factual API data in order to create markers
+        var latPos = factualData.indexOf("latitude");
+        var longPos = factualData.indexOf("longitude");
+        var namePos = factualData.indexOf("\"name\"");
+        var counter = 0;
 
-          // Renders map
-          L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
-          var map = L.mapbox.map('map', 'mapbox.streets')
-            .addControl(L.mapbox.geocoderControl('mapbox.places'))
-            .setView([latVal, longVal], 17);
+        var lat = factualData.substring(latPos+10, factualData.indexOf(",", latPos));
+        var long = factualData.substring(longPos+10, factualData.indexOf(",", longPos));
+        var name = factualData.substring(namePos+8, factualData.indexOf(",", namePos)-1);
 
-          // GeoJSON for a specific sample restaurant marker
-          // Can be loaded from a file, which should be populated with 
-          var geojson = [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [-118.124514,34.139011]
-            },
-            "properties": {
-              "title": "Chandler Cafeteria",
-              "description": "Main cafeteria at Caltech",
-              "marker-color": "#000000",
-              "marker-size": "large",
-              "marker-symbol": "restaurant"
-            }
-          }];
+        var newFeature = [
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [longVal, latVal]
+          },
+          "properties": {
+            "title": name,
+            "marker-color": "#000000",
+            "marker-size": "large",
+            "marker-symbol": "restaurant"
+          }
+        },
+        ];
 
-          var feautreLayer = L.mapbox.featureLayer()
-            .setGeoJSON(geojson)
-            .addTo(map);
+
+
+        // Renders map
+        L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
+        var map = L.mapbox.map('map', 'mapbox.streets')
+          .addControl(L.mapbox.geocoderControl('mapbox.places'))
+          .setView([latVal, longVal], 17);
+
+
+        var feautreLayer = L.mapbox.featureLayer()
+          .setGeoJSON(newFeature)
+          .addTo(map);
 
     else
       // Auto-redirects to login page if no account is found

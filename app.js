@@ -1,7 +1,9 @@
 // Including Express.js and Stormpath
 var express = require('express');
 var stormpath = require('express-stormpath');
+var yelp = require('yelp');
 var app = express();
+
 
 // Setting up jade as the view engine
 app.set('views', './views');
@@ -28,8 +30,9 @@ app.get('/', function(req, res) {
 
 // Rendering map page
 app.get('/map', function(req, res) {
-  res.render('map', {
-    title: 'Map'
+  res.render('map.jade', {
+    title: 'Map',
+    require: require
   });
 });
 
