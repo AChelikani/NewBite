@@ -1,0 +1,16 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-118.124514, 34.139011]
+  },
+  "properties": {
+    "title": "Caltech",
+    "marker-color": "#000000",
+    "marker-size": "large",
+    "marker-symbol": "restaurant"
+  }
+}
+
+{ "type": "Feature", "geometry": { "type" : "Point", "coordinates" : [-118.124514, 34.139011] }, "properties": { "title": "Caltech", "marker-color": "#000000", "marker-size": "large", "marker-symbol": "restaurant"} }, { "type": "Feature", "geometry": { "type" : "Point", "coordinates" : [-118.1248, 34.139011] }, "properties": { "title": "Caltech", "marker-color": "#000000", "marker-size": "large", "marker-symbol": "restaurant"} } ]
+[ { "type": "Feature", "geometry": { "type" : "Point", "coordinates" : [34.146083,-118.131341] }, "properties": { "title": ""Lovebirds Cafe & Bakery", "marker-color": "#000000", "marker-size": "large", "marker-symbol": "restaurant"} },{ "type": "Feature", "geometry": { "type" : "Point", "coordinates" : [34.147837,-118.121647] }, "properties": { "title": "Dog Haus", "marker-color": "#000000", "marker-size": "large", "marker-symbol": "restaurant"} }, ]
