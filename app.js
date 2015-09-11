@@ -1,7 +1,6 @@
 // Including Express.js and Stormpath
 var express = require('express');
 var stormpath = require('express-stormpath');
-var yelp = require('yelp');
 var app = express();
 
 

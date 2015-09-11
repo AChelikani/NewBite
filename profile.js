@@ -15,7 +15,9 @@ var profileForm = forms.create({
   streetAddress: forms.fields.string(),
   city: forms.fields.string(),
   state: forms.fields.string(),
-  zip: forms.fields.string()
+  zip: forms.fields.string(),
+  latitude: forms.fields.string(),
+  longitude: forms.fields.string()
 });
 
 // A render function that will render our form and
@@ -31,7 +33,9 @@ function renderForm(req,res,locals){
     streetAddress: req.user.customData.streetAddress,
     city: req.user.customData.city,
     state: req.user.customData.state,
-    zip: req.user.customData.zip
+    zip: req.user.customData.zip,
+    latitude: req.user.customData.latitude,
+    longitude: req.user.customData.longitude
   },locals||{}));
 }
 
@@ -62,6 +66,9 @@ module.exports = function profile(){
         req.user.customData.city = form.data.city;
         req.user.customData.state = form.data.state;
         req.user.customData.zip = form.data.zip;
+        req.user.customData.latitude = form.data.latitude;
+        req.user.customData.longitude = form.data.longitude;
+
         req.user.customData.save();
         req.user.save(function(err){
           if(err){

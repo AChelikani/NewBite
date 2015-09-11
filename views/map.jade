@@ -14,18 +14,25 @@ html
     if user
       #map
       script.
-        // Concatenates address of user into a url query, which returns a GeoJSON
-        var address = "#{user.customData.streetAddress}".split(" ").join("+") + "+" + "#{user.customData.city}" + "+" + "#{user.customData.state}";
-        var url = "http://api.tiles.mapbox.com/v4/geocode/mapbox.places/" + address + ".json?access_token=" + "pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw";
-        var latVal = 34.139011;
-        var longVal = -118.124514;
+        L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
+        var map = L.mapbox.map('map', 'mapbox.streets');
+
+        // Default start value is Pasadena, CA
+
+
+        latVal = "#{user.customData.latitude}";
+        longVal = "#{user.customData.longitude}";
+
+        // Initializing variables
         var limit = 50;
-        var newURL = "http://api.v3.factual.com/t/restaurants-us?geo={%22$circle%22:{%22$center%22:[" + latVal+ "," + longVal + "],%22$meters%22:%205000}}" + "&limit=50" + "&KEY=OGuAUQmSvTSqP5Jv6PJqn0UZ0bXEtHbOlOKcwVcR";
+        var radius = 2000;
+        var newURL = "http://api.v3.factual.com/t/restaurants-us?geo={%22$circle%22:{%22$center%22:[" + latVal + "," + longVal + "],%22$meters%22:%20" + radius + "}}" + "&limit=" + limit + "&KEY=OGuAUQmSvTSqP5Jv6PJqn0UZ0bXEtHbOlOKcwVcR";
         var factualData = "";
         var longArr = [];
         var latArr = [];
         var nameArr = [];
-        // Makes function call asynchronous
+
+        // Makes function call synchronous
         $.ajaxSetup({"async": false});
 
         $.getJSON(newURL, function(data) {
@@ -35,7 +42,7 @@ html
         // Manipulating Factual API data in order to create markers
         var latPos = factualData.indexOf("latitude");
         var longPos = factualData.indexOf("longitude");
-        var namePos = factualData.indexOf("\"name\"");
+        var namePos = factualData.indexOf('"name"');
         var counter = 0;
         while (counter < limit) {
           var lat = factualData.substring(latPos+10, factualData.indexOf(",", latPos));
@@ -47,7 +54,7 @@ html
 
           latPos = factualData.indexOf("latitude", latPos+2);
           longPos = factualData.indexOf("longitude", longPos+2);
-          namePos = factualData.indexOf("name", namePos+2);
+          namePos = factualData.indexOf('"name"', namePos+2);
 
           counter ++;
         }
@@ -64,12 +71,9 @@ html
         locations = locations + ' ]'
 
         var geojson = JSON.parse(locations);
-
         // Renders map
-        L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
-        var map = L.mapbox.map('map', 'mapbox.streets')
-          .addControl(L.mapbox.geocoderControl('mapbox.places'))
-          .setView([latVal, longVal], 17);
+        map.addControl(L.mapbox.geocoderControl('mapbox.places'));
+        map.setView([latVal, longVal], 17);
 
 
         var feautreLayer = L.mapbox.featureLayer()
