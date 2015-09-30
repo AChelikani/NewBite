@@ -37,4 +37,5 @@ app.get('/map', function(req, res) {
 
 app.use('/profile',stormpath.loginRequired,require('./profile')());
 
+// Running on port 5000
 app.listen(5000);

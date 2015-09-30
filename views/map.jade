@@ -4,29 +4,43 @@ html
     meta(charset='utf-8')
     title=title
     meta(name='viewport', content='initial-scale=1,maximum-scale=1,user-scalable=no')
+
     script(src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    script(src='https://cdn.firebase.com/js/client/2.3.0/firebase.js')
+
     link(href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css', rel='stylesheet')
     style.
       body { margin:0; padding:0; }
       #map { position:absolute; top:0; bottom:0; width:100%; }
   body
+    // Checks if a user is logged in
     if user
       #map
       script.
+        // Mapbox and Firebase setup
         L.mapbox.accessToken = 'pk.eyJ1Ijoic29jYWxkZXYiLCJhIjoiZDY2MGE5NWZhM2I0MTljODEyYTQxMzhmYmI5ODljNDUifQ.zRANwM_bBUoK33R0VGRPHw';
         var map = L.mapbox.map('map', 'mapbox.streets');
+        var myFirebase = new Firebase("https://glaring-torch-6121.firebaseio.com/");
+        
+        // (lat, long) is unique id -> concatenation makes for a unique id
+        function markVisited(xCoord, yCoord) {
+          myFirebase.set({
+              id: String(xCoord) + String(yCoord),
+              visited: "yes"
+            });
+        };
 
         // Default start value is Pasadena, CA
+        var latVal = "#{user.customData.latitude}";
+        var longVal = "#{user.customData.longitude}";
 
+        // Constants
+        var LIMIT = 50;
+        var RADIUS = 2000;
 
-        latVal = "#{user.customData.latitude}";
-        longVal = "#{user.customData.longitude}";
-
-        // Initializing variables
-        var limit = 50;
-        var radius = 2000;
-        var newURL = "http://api.v3.factual.com/t/restaurants-us?geo={%22$circle%22:{%22$center%22:[" + latVal + "," + longVal + "],%22$meters%22:%20" + radius + "}}" + "&limit=" + limit + "&KEY=OGuAUQmSvTSqP5Jv6PJqn0UZ0bXEtHbOlOKcwVcR";
+        var newURL = "http://api.v3.factual.com/t/restaurants-us?geo={%22$circle%22:{%22$center%22:[" + latVal + "," + longVal + "],%22$meters%22:%20" + RADIUS + "}}" + "&limit=" + LIMIT + "&KEY=OGuAUQmSvTSqP5Jv6PJqn0UZ0bXEtHbOlOKcwVcR";
+        // Initializing constants
         var factualData = "";
         var longArr = [];
         var latArr = [];
@@ -44,7 +58,7 @@ html
         var longPos = factualData.indexOf("longitude");
         var namePos = factualData.indexOf('"name"');
         var counter = 0;
-        while (counter < limit) {
+        while (counter < LIMIT) {
           var lat = factualData.substring(latPos+10, factualData.indexOf(",", latPos));
           var long = factualData.substring(longPos+11, factualData.indexOf(",", longPos));
           var name = factualData.substring(namePos+7, factualData.indexOf(",", namePos)-1);
@@ -61,9 +75,9 @@ html
 
         var locations = '[ ';
 
-        for(i = 0; i < limit; i ++) {
+        for(i = 0; i < LIMIT; i ++) {
           var temp = '{ "type": "Feature", "geometry": { "type" : "Point", "coordinates" : [' + String(longArr[i]) + ', ' + String(latArr[i]) + '] }, "properties": { "title": "' + String(nameArr[i]) + '", "marker-color": "#000000", "marker-size": "large", "marker-symbol": "restaurant"} }, ';
-          if (i == limit-1) {
+          if (i == LIMIT-1) {
             var temp = '{ "type": "Feature", "geometry": { "type" : "Point", "coordinates" : [' + String(longArr[i]) + ', ' + String(latArr[i]) + '] }, "properties": { "title": "' + String(nameArr[i]) + '", "marker-color": "#000000", "marker-size": "large", "marker-symbol": "restaurant"} } ';
           }
           locations = locations + temp;
@@ -71,15 +85,20 @@ html
         locations = locations + ' ]'
 
         var geojson = JSON.parse(locations);
+        
         // Renders map
         map.addControl(L.mapbox.geocoderControl('mapbox.places'));
         map.setView([latVal, longVal], 17);
 
-
+        // Add layer of markers to map
         var feautreLayer = L.mapbox.featureLayer()
           .setGeoJSON(geojson)
           .addTo(map);
 
+
+        featureLayer.on("click", function(e) {
+
+        });
     else
       // Auto-redirects to login page if no account is found
       script(type='text/javascript').
