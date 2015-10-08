@@ -21,13 +21,14 @@ html
       include cover.css
 
   body.bkimg
+    // Checks if user is logged in
     if user
       .site-wrapper
         .site-wrapper-inner
           .cover-container
             .masthead.clearfix
               .inner
-              
+            // Main menu
             .inner.cover
               h1 NewBite
               p.lead
@@ -40,6 +41,7 @@ html
                 a.btn-lg.btn-default(href='/logout') Logout
             .mastfoot
               .inner
+              // Footnote
                 p
                   | Advith Chelikani | 2015
     else

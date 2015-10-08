@@ -1,3 +1,4 @@
+// Load modules
 var express = require('express');
 var forms = require('forms');
 var csurf = require('csurf');
@@ -5,7 +6,7 @@ var collectFormErrors = require('express-stormpath/lib/helpers').collectFormErro
 var stormpath = require('express-stormpath');
 var extend = require('xtend');
 
-// Declare the schema of our form:
+// Declare the schema of form with var name and type
 
 var profileForm = forms.create({
   givenName: forms.fields.string({
@@ -20,9 +21,7 @@ var profileForm = forms.create({
   longitude: forms.fields.string()
 });
 
-// A render function that will render our form and
-// provide the values of the fields, as well
-// as any situation-specific locals
+// Render form with attributes from schema
 
 function renderForm(req,res,locals){
   res.render('profile', extend({
