@@ -60,13 +60,6 @@ html
           markVisited(btn.id);
         };
 
-        var visitedArr = [];
-        // Read from database
-        myFirebase.on("child_added", function(snapshot, prevChildKey) {
-          var newPost = snapshot.val();
-          var temp = newPost.id;
-          visitedArr.push(temp);
-        });
 
         // Default start value is Pasadena, CA
         var latVal = "#{user.customData.latitude}";
@@ -85,6 +78,15 @@ html
 
         // Makes function call synchronous
         $.ajaxSetup({"async": false});
+
+        var visitedArr = [];
+        // Read from database
+        myFirebase.on("child_added", function(snapshot, prevChildKey) {
+          var newPost = snapshot.val();
+          var temp = newPost.id;
+          visitedArr.push(temp);
+          localStorage.setItem('visitedArr', visitedArr);
+        });
 
         $.getJSON(newURL, function(data) {
           factualData = JSON.stringify(data);
@@ -111,7 +113,15 @@ html
         }
 
         var locations = '[ ';
-        var visitedPoints = visitedArr;
+        if (localStorage.getItem('visitedArr') != null) {
+          var visitedPoints = localStorage.getItem('visitedArr');
+        }
+        else {
+          var visitedPoints = [];
+        }
+
+        // Clear local storage so that any changes made to database are reflect on page on refresh
+        localStorage.clear();
 
         for(i = 0; i < LIMIT; i ++) {
           var bId = String(longArr[i]) + " " + String(latArr[i]);

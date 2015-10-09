@@ -4,8 +4,8 @@ var stormpath = require('express-stormpath');
 var app = express();
 
 
-// Setting up jade as the view engine
-app.set('views', './views');
+// Setting up jade as the view engine and specifying view directory
+app.set('views', './views'); 
 app.set('view engine', 'jade');
 
 // Using my stormpath credentials to intialize stormpath middleware

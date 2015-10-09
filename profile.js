@@ -6,8 +6,7 @@ var collectFormErrors = require('express-stormpath/lib/helpers').collectFormErro
 var stormpath = require('express-stormpath');
 var extend = require('xtend');
 
-// Declare the schema of form with var name and type
-
+// Schema of profile form
 var profileForm = forms.create({
   givenName: forms.fields.string({
     required: true
@@ -21,8 +20,7 @@ var profileForm = forms.create({
   longitude: forms.fields.string()
 });
 
-// Render form with attributes from schema
-
+// Render form based on schema
 function renderForm(req,res,locals){
   res.render('profile', extend({
     title: 'My Profile',
@@ -40,7 +38,6 @@ function renderForm(req,res,locals){
 
 // Export a function which will create the
 // router and return it
-
 module.exports = function profile(){
 
   var router = express.Router();
@@ -106,7 +103,6 @@ module.exports = function profile(){
   });
 
   // This is an error handler for this router
-
   router.use(function (err, req, res, next) {
     // This handler catches errors for this router
     if (err.code === 'EBADCSRFTOKEN'){
